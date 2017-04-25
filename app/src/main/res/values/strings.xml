@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Agoda</string>
+    <string name="txt_member">Member</string>
+    <string name="txt_email">E-mail</string>
+    <string name="txt_password">Password</string>
+    <string name="txt_submit">Submit</string>
+    <string name="txt_register">Sign Up</string>
+    <string name="txt_confirm">Confirm</string>
+    <string name="txt_cancel">Cancel</string>
+
+</resources>
