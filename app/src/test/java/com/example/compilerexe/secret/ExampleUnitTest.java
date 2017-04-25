@@ -1,4 +1,4 @@
-package com.example.compilerexe.agoda;
+package com.example.compilerexe.secret;
 
 import org.junit.Test;
 

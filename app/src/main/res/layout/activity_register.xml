@@ -10,7 +10,7 @@
     android:paddingRight="10dp"
     android:paddingBottom="10dp"
     android:orientation="vertical"
-    tools:context="com.example.compilerexe.agoda.MainActivity">
+    tools:context="com.example.compilerexe.secret.MainActivity">
 
     <TextView
         android:id="@+id/textView5"

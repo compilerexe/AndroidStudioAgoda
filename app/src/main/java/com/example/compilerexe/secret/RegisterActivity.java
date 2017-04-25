@@ -1,4 +1,4 @@
-package com.example.compilerexe.agoda;
+package com.example.compilerexe.secret;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.compilerexe.agoda.model.DBHelper;
+import com.example.compilerexe.secret.model.DBHelper;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -45,12 +45,20 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             if (!TextUtils.isEmpty(getInputEmail) && !TextUtils.isEmpty(getInputPassword)) {
                 DBHelper myDbHelper = new DBHelper(this, null, null, 0);
                 SQLiteDatabase db = myDbHelper.getWritableDatabase();
+
                 ContentValues values = new ContentValues();
                 values.put("Email", getInputEmail);
                 values.put("Password", getInputPassword);
-                long newCustomers = db.insert("Customers", null, values);
+                long newUser = db.insert("Users", null, values);
 
-                if (newCustomers != -1) {
+                if (newUser != -1) {
+
+                    ContentValues defaultSecret = new ContentValues();
+                    defaultSecret.put("Secret1", "");
+                    defaultSecret.put("Secret2", "");
+                    defaultSecret.put("Secret3", "");
+                    long newSecret = db.insert("Secrets", null, defaultSecret);
+
                     Toast toast = Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG);
                     toast.show();
                     field_email.setText(null);

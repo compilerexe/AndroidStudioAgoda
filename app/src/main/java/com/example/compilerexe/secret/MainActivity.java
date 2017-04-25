@@ -1,29 +1,23 @@
-package com.example.compilerexe.agoda;
+package com.example.compilerexe.secret;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.compilerexe.agoda.model.DBHelper;
+import com.example.compilerexe.secret.model.DBHelper;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "MainActivity";
 
-    Intent intent_register;
+    Intent intent_register, intent_home;
     EditText txt_email, txt_password;
     Button btn_submit, btn_register;
 
@@ -37,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        db.getWritableDatabase();
 
         intent_register = new Intent(this, RegisterActivity.class);
+        intent_home = new Intent(this, HomeActivity.class);
 
         txt_email = (EditText)findViewById(R.id.txt_email);
         txt_password = (EditText)findViewById(R.id.txt_password);
@@ -57,25 +52,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             if (!TextUtils.isEmpty(getInputEmail) && !TextUtils.isEmpty(getInputPassword)) {
 
-                //String sql = "SELECT * FROM Customers";
-                String sql = "SELECT * FROM Customers WHERE Email = ? AND Password = ?";
+                //String sql = "SELECT * FROM Users";
+                String sql = "SELECT * FROM Users WHERE Email = ? AND Password = ?";
                 String[] whereArgs = {getInputEmail, getInputPassword};
                 Cursor cur = db.rawQuery(sql, whereArgs);
                 //Cursor cur = db.rawQuery(sql, null);
                 if (cur != null) {
                     if (cur.moveToFirst()) {
                         do {
-                            Log.d(TAG, "" + cur.getString(0) + cur.getString(1) + cur.getString(2));
+                            //Log.d(TAG, "" + cur.getString(0) + cur.getString(1) + cur.getString(2));
+                            intent_home.putExtra("ID", cur.getString(0));
+                            intent_home.putExtra("Email", cur.getString(1));
+                            intent_home.putExtra("Password", cur.getString(2));
+                            startActivity(intent_home);
                         } while (cur.moveToNext());
                     } else {
-                        Toast toast = Toast.makeText(getApplicationContext(), "Not found member.", Toast.LENGTH_LONG);
-                        toast.show();
+                        showToastError();
                     }
                 }
+
+                cur.close();
+            } else {
+                showToastError();
             }
 
         } else if (v == btn_register) {
             startActivity(intent_register);
         }
+    }
+
+    public void showToastError() {
+        Toast toast = Toast.makeText(getApplicationContext(), "Please check email or password again.", Toast.LENGTH_SHORT);
+        toast.show();
     }
 }
